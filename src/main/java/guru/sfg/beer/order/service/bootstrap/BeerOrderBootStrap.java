@@ -26,17 +26,17 @@ public class BeerOrderBootStrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        loadCustomerData();
+        if (customerRepository.count() == 0) {
+            loadCustomerData();
+        }
     }
 
     private void loadCustomerData() {
-        if (customerRepository.count() == 0) {
-            Customer saved = customerRepository.save(Customer.builder()
-                                                            .customerName(TASTING_ROOM)
-                                                            .apiKey(UUID.randomUUID())
-                                                            .build());
+        Customer saved = customerRepository.save(Customer.builder()
+                                                        .customerName(TASTING_ROOM)
+                                                        .apiKey(UUID.randomUUID())
+                                                        .build());
 
-            log.debug(">> Created customer with Id: " + saved.getId());
-        }
+        log.debug(">> Created customer with Id: " + saved.getId());
     }
 }
